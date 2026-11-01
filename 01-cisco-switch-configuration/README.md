@@ -55,37 +55,61 @@ interface in VLAN 99.
 ### Static MAC Address Configuration
 
 I manually configured a static MAC address entry
-to associate the connected PC with a specific
-switch interface.
+(0050.56be.6c89) on VLAN 99, associating it with
+interface Gi1/0/6.
+
+I then verified that the static entry appeared in the
+switch's MAC address table, alongside the dynamically
+learned MAC address of the connected workstation.
 
 ![Static MAC entry](screenshots/mac-static.png)
 
 ## Troubleshooting: SSH Compatibility
 
-While attempting to connect to the switch using Windows
-PowerShell, the SSH connection failed because the switch
-offered legacy SHA-1-based key exchange algorithms.
+### Issue Encountered
 
-After investigating the available algorithms, I successfully
-established an SSH connection using temporary,
-connection-specific compatibility options.
+When connecting to the Cisco switch from Windows PowerShell,
+the SSH client returned:
 
-This workaround was used only in an isolated educational
-environment and is not recommended for production systems.
+```text
+Unable to negotiate with 192.168.1.2 port 22:
+no matching key exchange method found.
+```
+
+### Investigation
+
+The switch offered legacy SHA-1-based key exchange
+algorithms that were not enabled by default in the
+Windows OpenSSH client.
+
+### Resolution
+
+I successfully established the connection using:
+
+```powershell
+ssh -o KexAlgorithms=+diffie-hellman-group14-sha1 -o HostKeyAlgorithms=+ssh-rsa admin@192.168.1.2
+```
+
+The compatibility options applied only to that connection.
+
+**Security note:** This was a temporary workaround in an
+isolated educational lab. Enabling legacy cryptographic
+algorithms is not recommended for production environments.
 
 ## Verification
 
-- Management VLAN 99 operational
-- IPv4 connectivity verified
-- IPv6 connectivity verified
-- Remote SSH access established
-- MAC address learning examined
+| Verification | Result | Evidence |
+|---|---|---|
+| VLAN 99 SVI | Up/up | Screenshot |
+| IPv4 connectivity | Successful | Lab notes |
+| IPv6 connectivity | Successful | Lab notes |
+| SSH remote access | Successful after troubleshooting | Lab notes |
+| Dynamic MAC learning | Entry learned on Gi1/0/6 | Screenshot |
+| Static MAC configuration | Entry present on Gi1/0/6 | Screenshot |
 
 ## Key Takeaways
 
-- Understanding how management VLANs operate
-- Configuring and troubleshooting remote access
-- Distinguishing connectivity failures from SSH
-  cryptographic negotiation problems
-- Using Cisco IOS verification commands
+This lab helped me understand how management VLANs and switch virtual interfaces work on physical Cisco equipment. I also gained experience troubleshooting SSH compatibility issues and examining how switches learn MAC addresses.
+
+One of my main takeaways was learning to distinguish between network connectivity problems and authentication or cryptographic negotiation problems.
 

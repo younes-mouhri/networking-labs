@@ -28,13 +28,7 @@ between switches.
 
 The lab used two interconnected switches and two PCs.
 
-```text
-PC-A -------- S1 ========== S2 -------- PC-B
-             Access        Access
-              Port          Port
-
-             Inter-switch trunk
-```
+![Lab topology](screenshots/topology.png)
 
 Both PCs were assigned to VLAN 10, while VLAN 99 was used
 for switch management.

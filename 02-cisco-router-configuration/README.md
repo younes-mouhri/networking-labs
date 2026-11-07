@@ -15,8 +15,8 @@ The lab was performed using physical Cisco networking equipment.
 - Cisco ISR Router — IOS XE
 - Cisco IOS CLI
 - IPv4 and IPv6
-- SSHv2
-- RSA Authentication
+- SSHv2 
+- RSA Host Keys
 - IPv6 SLAAC
 - Windows PowerShell
 - Tera Term
@@ -102,9 +102,11 @@ Both GigabitEthernet interfaces and Loopback0 were operational.
 
 ### Workstation Configuration
 
-Both Windows workstations were configured with static IPv4/IPv6 addresses and appropriate default gateways.
+Both Windows workstations were initially configured with static IPv4 and IPv6 addresses and appropriate default gateways.
 
-![PC-A IPv4 & IPv6 Configuration](screenshots/pc-addressing.jpg)
+IPv6 autoconfiguration was also examined during the lab.
+
+![PC-B IPv4 & IPv6 Configuration](screenshots/pc-addressing.jpg)
 
 ### IPv4 and IPv6 Verification
 
@@ -211,11 +213,11 @@ The `C` route code identifies directly connected networks.
 
 ### IPv6 Autoconfiguration
 
-The lab also demonstrated IPv6 Stateless Address Autoconfiguration (SLAAC).
+The lab explored IPv6 Stateless Address Autoconfiguration (SLAAC), which allows hosts to configure IPv6 addresses using router advertisements.
 
-PC-B automatically obtained IPv6 addressing information within the `2001:db8:acad::/64` network and used `fe80::1` as its default gateway.
+PC-B's IPv6 settings were examined to understand the differences between static addressing and SLAAC.
 
-Connectivity to the router's IPv6 interfaces was successfully verified.
+IPv6 connectivity to the router was successfully verified.
 
 ## Verification Summary
 

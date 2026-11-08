@@ -15,7 +15,7 @@ Hands-on Cisco networking labs from my **Computer Systems Technology – Network
 |---|-----|-----------|--------|
 | 01 | [Switch Configuration & SSH Troubleshooting](./01-cisco-switch-configuration) | Cisco Catalyst 1000 | Management VLAN 99, SVI, IPv4/IPv6, SSHv2, MAC address table |
 | 02 | [Router Configuration: IPv4, IPv6 & SSH](./02-cisco-router-configuration) | Cisco ISR router, Catalyst switch | Interface configuration, IPv4/IPv6, SLAAC, SSHv2, RSA keys |
-| 03 | [VLANs and Trunking](./03-vlans-and-trunking) | FILL IN | FILL IN |
+| 03 | [VLANs and 802.1Q Trunking](./03-vlans-and-trunking) | 2 Cisco Catalyst switches, 2 PCs | VLANs 10/20/99/1000, access ports, management SVI, DTP, 802.1Q trunking, native VLAN |
 
 New labs are added here once they're finished and verified.
 

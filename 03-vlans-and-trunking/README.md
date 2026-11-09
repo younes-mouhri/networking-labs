@@ -2,21 +2,18 @@
 
 ## Overview
 
-This project documents Cisco Lab 3.4.6, completed as part of the
-CNET 217 Switching & Routing Essentials course at Centennial College.
+This project documents Cisco Lab 3.4.6, completed as part of the CNET 217 Switching & Routing Essentials course at Centennial College.
 
-The lab involved configuring VLANs across two Cisco switches,
-assigning access ports, managing VLAN databases, and establishing
-inter-switch connectivity through IEEE 802.1Q trunking.
+The lab involved configuring VLANs across two Cisco switches, assigning access ports, managing VLAN databases, and establishing inter-switch connectivity through IEEE 802.1Q trunking.
 
-The objective was to understand how VLANs segment Layer 2 networks
-and how trunk links allow traffic from multiple VLANs to travel
-between switches.
+The objective was to understand how VLANs segment Layer 2 networks and how trunk links allow traffic from multiple VLANs to travel between switches.
+
+**Status:** Completed
 
 ## Technologies
 
 - Cisco IOS
-- Cisco Catalyst switches
+- Cisco Catalyst Switches
 - VLANs
 - IEEE 802.1Q
 - Dynamic Trunking Protocol (DTP)
@@ -26,19 +23,24 @@ between switches.
 
 ## Network Topology
 
-The lab used two interconnected switches and two PCs.
+The lab used two interconnected switches and two Windows workstations.
 
-![Lab topology](screenshots/topology.png)
+![Lab Topology](screenshots/topology.png)
 
-Both PCs were assigned to VLAN 10, while VLAN 99 was used
-for switch management.
+Both PCs were assigned to VLAN 10, while VLAN 99 was used for switch management.
+
+### Physical Lab Environment
+
+The lab was performed using physical Cisco networking equipment.
+
+![Physical Cisco Switching Laboratory](screenshots/physical-lab-cabling.jpg)
 
 ### IP Addressing
 
 | Device | Interface | IPv4 Address |
 |--------|-----------|--------------|
-| S1 | Management SVI | 192.168.1.11/24 |
-| S2 | Management SVI | 192.168.1.12/24 |
+| S1 | Management SVI (VLAN 99) | 192.168.1.11/24 |
+| S2 | Management SVI (VLAN 99) | 192.168.1.12/24 |
 | PC-A | Ethernet | 192.168.10.3/24 |
 | PC-B | Ethernet | 192.168.10.4/24 |
 
@@ -79,10 +81,11 @@ The VLAN database was verified using:
 show vlan brief
 ```
 
+![VLAN Configuration](screenshots/vlan-configuration.png)
+
 ## Access Port Configuration
 
-The PC-facing interfaces were configured as access ports
-belonging to VLAN 10.
+The PC-facing interfaces were configured as access ports belonging to VLAN 10.
 
 Example configuration:
 
@@ -94,13 +97,23 @@ interface GigabitEthernet1/0/6
 
 This associates the connected device with VLAN 10.
 
-The assigned VLAN determines the Layer 2 broadcast domain
-to which the device belongs.
+The assigned VLAN determines the Layer 2 broadcast domain to which the device belongs.
+
+### VLAN Assignment Verification
+
+VLAN membership and interface information were examined on both switches.
+
+**Switch S1**
+
+![S1 VLAN and Interface Configuration](screenshots/vlan-interface-s1.png)
+
+**Switch S2**
+
+![S2 VLAN and Interface Configuration](screenshots/vlan-interface-s2.png)
 
 ## Management VLAN Configuration
 
-The management IP addresses were moved from VLAN 1
-to VLAN 99.
+The management IP addresses were moved from VLAN 1 to VLAN 99.
 
 Example S1 configuration:
 
@@ -126,14 +139,13 @@ interface vlan 99
 
 ### Initial SVI Troubleshooting
 
-After configuring VLAN 99, the management SVI initially
-reported an up/down state.
+After configuring VLAN 99, the management SVI initially reported an `up/down` state.
 
-Although the interface was administratively enabled,
-VLAN 99 had no active Layer 2 forwarding path.
+Although the interface was administratively enabled, VLAN 99 had no active Layer 2 forwarding path.
 
-This demonstrated that an SVI requires an operational VLAN
-with active forwarding connectivity to become fully operational.
+This demonstrated that an SVI requires an operational VLAN with active forwarding connectivity to become fully operational.
+
+![Management VLAN 99 Interface Status](screenshots/vlan-99-state.png)
 
 ## VLAN Database Management
 
@@ -141,8 +153,7 @@ The lab included several VLAN maintenance operations.
 
 ### Reassigning Ports
 
-Multiple interfaces were assigned to a VLAN using
-`interface range`.
+Multiple interfaces were assigned to a VLAN using `interface range`.
 
 Individual ports were then reassigned to different VLANs.
 
@@ -160,8 +171,7 @@ The port returned to VLAN 1.
 
 ### Deleting a VLAN
 
-The lab also demonstrated the behavior of an access port
-when its assigned VLAN is deleted.
+The lab also demonstrated the behavior of an access port when its assigned VLAN is deleted.
 
 For example:
 
@@ -169,28 +179,23 @@ For example:
 no vlan 30
 ```
 
-The interface retained its VLAN 30 assignment, even though
-VLAN 30 no longer existed in the VLAN database.
+The interface retained its VLAN 30 assignment, even though VLAN 30 no longer existed in the VLAN database.
 
-As a result, normal traffic forwarding for that VLAN was
-interrupted.
+As a result, normal traffic forwarding for that VLAN was interrupted.
 
-This demonstrated why interfaces should be reassigned
-before removing their associated VLAN.
+This demonstrated why interfaces should be reassigned before removing their associated VLAN.
 
 ## 802.1Q Trunk Configuration
 
 ### Initial Connectivity Problem
 
-Before trunking was configured, both PCs belonged to VLAN 10,
-but the inter-switch link did not carry VLAN 10 traffic.
+Before trunking was configured, both PCs belonged to VLAN 10, but the inter-switch link did not carry VLAN 10 traffic.
 
 Therefore, PC-A could not communicate with PC-B.
 
 ### Dynamic Trunk Negotiation
 
-The lab explored trunk negotiation using Dynamic Trunking
-Protocol (DTP).
+The lab explored trunk negotiation using Dynamic Trunking Protocol (DTP).
 
 The configuration included:
 
@@ -204,13 +209,15 @@ Trunk status was inspected using:
 show interfaces trunk
 ```
 
-After the trunk was established, traffic from VLAN 10
-could pass between both switches.
+![Trunk Mode Configuration](screenshots/trunk-mode.png)
+
+After the trunk was established, traffic from VLAN 10 could pass between both switches.
 
 ### Manual Trunk Configuration
 
-The inter-switch interfaces were subsequently configured
-as static trunks.
+The inter-switch interfaces were subsequently configured as static trunks.
+
+Example configuration:
 
 ```cisco
 interface GigabitEthernet1/0/1
@@ -218,43 +225,54 @@ interface GigabitEthernet1/0/1
  switchport trunk native vlan 1000
 ```
 
-The native VLAN was configured consistently on both
-ends of the trunk.
+The native VLAN was configured consistently on both ends of the trunk.
 
-Trunk status was verified with:
+Trunk status was verified using:
 
 ```cisco
 show interfaces trunk
 ```
 
+### Trunk Verification
+
+**Switch S1**
+
+![S1 Trunk Verification](screenshots/trunk-verification-s1.png)
+
+**Switch S2**
+
+![S2 Trunk Verification](screenshots/trunk-verification-s2.png)
+
 ### Why Configure Trunks Manually?
 
-Manually configured trunks provide explicit control
-over which interfaces operate as trunk links.
+Manually configured trunks provide explicit control over which interfaces operate as trunk links.
 
-This reduces reliance on automatic DTP negotiation
-and helps prevent unintended trunk formation.
+This reduces reliance on automatic DTP negotiation and helps prevent unintended trunk formation.
 
 ### Why Change the Native VLAN?
 
 The native VLAN was changed from VLAN 1 to VLAN 1000.
 
-Using a dedicated, otherwise unused native VLAN is
-a common network-hardening practice.
+Using a dedicated, otherwise unused native VLAN is a common network-hardening practice.
 
 The native VLAN must match on both ends of the trunk.
 
 ## Connectivity Verification
 
-The lab demonstrated how VLAN configuration affects
-network communication.
+The lab demonstrated how VLAN configuration affects network communication.
 
-| Connectivity Test | Before Trunking | After Trunking |
-|-------------------|-----------------|----------------|
-| PC-A → PC-B | Failed after VLAN assignment | Successful |
-| S1 → S2 | Failed when VLAN 99 lacked a forwarding path | Successful |
-| PC-A → S1 | Failed | Failed |
-| PC-B → S2 | Failed | Failed |
+| Connectivity Test | After VLAN Assignment, Before Trunking | After Trunking |
+|-------------------|----------------------------------------|----------------|
+| PC-A → PC-B | Failed | Successful |
+| S1 → S2 | Failed | Successful |
+| PC-A → S1 Management | Failed | Failed |
+| PC-B → S2 Management | Failed | Failed |
+
+### Inter-Switch Connectivity
+
+Connectivity between S1 and S2 was successfully restored after trunking was configured.
+
+![Inter-Switch Connectivity Verification](screenshots/inter-switch-connectivity.png)
 
 ### Analysis
 
@@ -276,14 +294,11 @@ The switch flash directory was inspected using:
 show flash:
 ```
 
-The VLAN database file, `vlan.dat`, was identified and
-removed as part of the authorized lab reset procedure.
+The VLAN database file, `vlan.dat`, was identified and removed as part of the authorized lab reset procedure.
 
-The startup configuration was also erased, and the
-switches were reloaded to restore their initial state.
+The startup configuration was also erased, and the switches were reloaded to restore their initial state.
 
-These operations were performed only on assigned
-educational lab equipment.
+These operations were performed only on assigned educational lab equipment.
 
 ## Verification Summary
 
@@ -295,7 +310,7 @@ educational lab equipment.
 | Management VLAN configuration | Completed |
 | VLAN reassignment | Completed |
 | VLAN deletion and troubleshooting | Completed |
-| DTP negotiation | Completed |
+| DTP negotiation exercise | Completed |
 | Manual 802.1Q trunking | Completed |
 | Native VLAN configuration | Completed |
 | Connectivity verification | Completed |
@@ -303,17 +318,16 @@ educational lab equipment.
 
 ## Key Takeaways
 
-This lab strengthened my understanding of VLAN segmentation,
-access ports, and inter-switch trunking.
+This lab strengthened my understanding of VLAN segmentation, access ports, and inter-switch trunking.
 
-The most valuable troubleshooting exercise involved identifying
-why devices in the same VLAN could not communicate before
-trunking was configured.
+The most valuable troubleshooting exercise involved identifying why devices in the same VLAN could not communicate before trunking was configured.
 
-I also learned how deleting a VLAN affects assigned interfaces,
-why management SVIs depend on active Layer 2 connectivity,
-and why inter-VLAN routing is required for communication
-between separate networks.
+I also learned how deleting a VLAN affects assigned interfaces, why management SVIs depend on active Layer 2 connectivity, and why inter-VLAN routing is required for communication between separate networks.
 
-These concepts are fundamental to designing, configuring,
-and troubleshooting switched networks.
+These concepts are fundamental to configuring and troubleshooting switched networks.
+
+---
+
+**Environment:** Physical Cisco Networking Laboratory — Centennial College
+
+**Curriculum:** Cisco CCNA — Switching, Routing, and Wireless Essentials

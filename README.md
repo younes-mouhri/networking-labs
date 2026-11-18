@@ -22,13 +22,23 @@ New labs are added here once they're finished and verified.
 
 ---
 
-## 🧾 What each lab contains
 
-- Objectives and topology
-- IP addressing table
-- Configuration steps with the actual CLI commands
-- Verification output (`show` commands, ping and SSH tests)
-- Troubleshooting notes and what I learned
+## 🧾 Lab Documentation
+
+Each project documents practical networking concepts explored through Cisco coursework and hands-on laboratory exercises.
+
+Depending on the lab, documentation includes:
+
+- Network topology and IP addressing
+- Cisco IOS configuration examples
+- Verification using `show` commands, ping, SSH, or traceroute
+- Screenshots from physical networking equipment
+- Troubleshooting observations and lessons learned
+
+The focus is on understanding network behavior, validating configurations, and developing practical troubleshooting skills.
+
+All projects are based on completed coursework, with verification evidence provided where available.
+
 
 ---
 
